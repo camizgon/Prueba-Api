@@ -42,8 +42,9 @@
     
   }
   img {
-    width: 200px;
+    width: 185px;
     height: 180px;
+    margin-top: 10px;
     object-fit: cover;
     border: 1px solid #000;
     background-color: #0E0F11;
