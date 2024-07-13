@@ -1,26 +1,74 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <div id="header">
+      <img id="logo" src="./assets/logo.png" alt="logo">
+      <h1>¿Quién es ese Pokémon?</h1>
+      <p>Pokemones descubiertos: {{ contador }}</p>
+    </div>
+    <div v-for="(pokemon, index) in pokemons" :key="index">
+      <PokemonCard
+        :name="pokemon.name"
+        :img="pokemon.img"
+        :encontrado="pokemon.encontrado"
+        @evaluar="evaluar(index, $event)" />
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
+import PokemonCard from './components/PokemonCard.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    PokemonCard
+  },
+  data() {
+    return {
+      pokemons: [],
+      contador: 0,
+    };
+  },
+  mounted() {
+    axios.get('https://pokeapi.co/api/v2/pokemon?limit=20')
+      .then(response => {
+        const requests = response.data.results.map(pokemon => axios.get(pokemon.url));
+        return Promise.all(requests);
+      })
+      .then(responses => {
+        this.pokemons = responses.map(response => ({
+          name: response.data.name,
+          img: response.data.sprites.front_default,
+          encontrado: true
+        }));
+      });
+  },
+  methods: {
+    evaluar(index, inputName) {
+      if (this.pokemons[index].name.toLowerCase() === inputName.toLowerCase()) {
+        this.pokemons[index].encontrado = false;
+        this.contador++;
+      } else {
+        alert('El nombre ingresado no corresponde a un Pokémon.');
+      }
+    }
   }
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+#header {
+  width: 100%;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
+
+
