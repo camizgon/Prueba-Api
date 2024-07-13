@@ -3,7 +3,9 @@
     <div id="header">
       <img id="logo" src="./assets/logo.png" alt="logo">
       <h1>¿Quién es ese Pokémon?</h1>
-      <p>Pokemones descubiertos: {{ contador }}</p>
+      <p>Pokemones descubiertos: <span style="color: #ecab0f; font-weight: bold;">{{ contador }}</span></p>
+
+
     </div>
     <div v-for="(pokemon, index) in pokemons" :key="index">
       <PokemonCard
@@ -68,6 +70,10 @@ export default {
 #header {
   width: 100%;
   text-align: center;
+}
+
+p{
+  font-weight: bold;
 }
 </style>
 
