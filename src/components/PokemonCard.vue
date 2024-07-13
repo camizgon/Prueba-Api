@@ -43,7 +43,7 @@
   }
   img {
     width: 200px;
-    height: 150px;
+    height: 180px;
     object-fit: cover;
     border: 1px solid #000;
     background-color: #0E0F11;
@@ -81,6 +81,9 @@
   }
   
   #submit:active {
+    background-color:  #0e6596;
+  }
+  #submit:hover {
     background-color:  #0e6596;
   }
   </style>
